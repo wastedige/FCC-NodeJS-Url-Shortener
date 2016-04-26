@@ -21,9 +21,14 @@ MongoClient.connect(mongodburl, function (err, db) {
     //HURRAY!! We are connected. :)
     console.log('Connection established to', mongodburl);
     collection = db.collection('urls');
-    collection.drop();
+    // collection.drop();
     showCollection()
   }
+})
+
+// fuck favicon
+app.get('/favicon.ico', function(req, res)  {
+    res.send()
 })
 
 app.get('/', function(req, res) {
@@ -32,6 +37,8 @@ app.get('/', function(req, res) {
       console.log(err);
     } else if (result.length) {
       res.send(result);
+    } else {
+      res.send('Empty! Add addresses using \/new\/YourAddress')
     }
   })
 })
@@ -50,7 +57,7 @@ app.param('fetchid', function(req, res, next, fetchid){
       console.log('Redirecting to:', result[0].longurl);
       res.redirect(result[0].longurl)
     }
-    else console.log(result)
+    else res.send('Invalid shortcut id!')
   })
 
   next();
@@ -83,9 +90,9 @@ app.get('/new/*', function(request, response) {
           addUrl(requestedUrl, index)
           response.send(JSON.stringify({
             "orig_url": requestedUrl,
-            "short_url": __dirname + '\\' + result[0].id
+            "short_url": __dirname + '\\' + index
           }))
-          
+
         }
       })
 
