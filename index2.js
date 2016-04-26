@@ -1,3 +1,4 @@
+// http://blog.modulus.io/mongodb-tutorial
 var express = require('express');
 var mongodb = require('mongodb');
 var url = require('url')
@@ -19,9 +20,7 @@ MongoClient.connect(mongodburl, function (err, db) {
   }
 })
 
-// add index no!
-
-
+app.use(express.favicon(__dirname + '/public/favicon.ico'));
 app.set('port', (process.env.PORT || 5000));
 // views is directory for all template files
 
