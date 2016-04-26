@@ -19,6 +19,9 @@ MongoClient.connect(mongodburl, function (err, db) {
   }
 })
 
+app.use(express.static(__dirname + '/public'));
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 app.use(express.favicon(__dirname + '/favicon.ico'));
 app.set('port', (process.env.PORT || 5000));
 // views is directory for all template files
