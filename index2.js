@@ -14,7 +14,7 @@ MongoClient.connect(mongodburl, function (err, db) {
     //HURRAY!! We are connected. :)
     console.log('Connection established to', mongodburl);
     collection = db.collection('urls');
-    //collection.drop();
+    collection.drop();
     showCollection()
   }
 })
@@ -24,6 +24,17 @@ MongoClient.connect(mongodburl, function (err, db) {
 
 app.set('port', (process.env.PORT || 5000));
 // views is directory for all template files
+
+app.get('/', function(req, res) {
+  collection.find().toArray(function (err, result) {
+    if (err) {
+      console.log(err);
+    } else if (result.length) {
+      res.send(result);
+    }
+  })
+})
+
 
 app.get('/:fetchid', function(req, res) {
 
@@ -69,6 +80,7 @@ app.get('/new/*', function(request, response) {
           console.log(err)
         } else {
           addUrl(requestedUrl, index)
+          response.send("URL: " + requestedUrl )
         }
       })
 
@@ -105,7 +117,7 @@ function findIndex(callback) {
           console.log(err);
         } else {
           console.log('Created index -- Inserted %d documents:', result.insertedCount, result);
-          increaseIndex()
+          callback(null, 0);
         }
       })
     }
