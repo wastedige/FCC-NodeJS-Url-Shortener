@@ -38,7 +38,7 @@ app.get('/', function(req, res) {
     } else if (result.length) {
       res.send(result);
     } else {
-      res.send('Empty! Add addresses using \/new\/YourAddress')
+      res.send('Empty! Add addresses using /new/YourAddress')
     }
   })
 })
@@ -77,7 +77,7 @@ app.get('/new/*', function(request, response) {
       console.log('Found:', result);
       response.send(JSON.stringify({
         "orig_url": requestedUrl,
-        "short_url": __dirname + '\\' + result[0].id
+        "short_url": request.protocol + '://' + request.get('host') + result[0].id
       }))
 
     } else {
@@ -90,7 +90,7 @@ app.get('/new/*', function(request, response) {
           addUrl(requestedUrl, index)
           response.send(JSON.stringify({
             "orig_url": requestedUrl,
-            "short_url": __dirname + '\\' + index
+            "short_url": request.protocol + '://' + request.get('host') + index
           }))
 
         }
