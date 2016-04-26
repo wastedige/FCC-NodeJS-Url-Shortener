@@ -16,8 +16,6 @@ MongoClient.connect(mongodburl, function (err, db) {
     collection = db.collection('urls');
     //collection.drop();
     showCollection()
-    console.log(__dirname)
-
   }
 })
 
@@ -27,7 +25,24 @@ MongoClient.connect(mongodburl, function (err, db) {
 app.set('port', (process.env.PORT || 5000));
 // views is directory for all template files
 
+app.get('/:fetchid', function(req, res) {
 
+})
+
+app.param('fetchid', function(req, res, next, fetchid){
+
+  collection.find({id: parseInt(fetchid)}).toArray(function (err, result) {
+    if (err) {
+      console.log(err);
+    } else if (result.length) {
+      console.log('Redirecting to:', result[0].longurl);
+      res.redirect(result[0].longurl)
+    }
+    else console.log(result)
+  })
+
+  next();
+});
 
 app.get('/new/*', function(request, response) {
   console.log(request.params[0])
@@ -61,11 +76,6 @@ app.get('/new/*', function(request, response) {
   })
 })
 
-app.param('add', function(req,res, next, add){
-  console.log("aa" + add)
-  next();
-});
-
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
@@ -76,6 +86,7 @@ app.listen(app.get('port'), function() {
 // var query = url_parts.query;
 // console.log(query)
 
+// http://stackoverflow.com/a/15855457/1319560
 function validateUrl(value){
     return /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(value);
 }
