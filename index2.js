@@ -32,15 +32,17 @@ app.get('/favicon.ico', function(req, res)  {
 })
 
 app.get('/', function(req, res) {
-  collection.find().toArray(function (err, result) {
-    if (err) {
-      console.log(err);
-    } else if (result.length) {
-      res.send(result);
-    } else {
-      res.send('Empty! Add addresses using /new/YourAddress')
-    }
-  })
+  res.send('Add addresses using /new/YourAddress')
+  // For TROUBLESHOOTNG
+  // collection.find().toArray(function (err, result) {
+  //   if (err) {
+  //     console.log(err);
+  //   } else if (result.length) {
+  //     res.send(result);
+  //   } else {
+  //     res.send('Empty! Add addresses using /new/YourAddress')
+  //   }
+  // })
 })
 
 
