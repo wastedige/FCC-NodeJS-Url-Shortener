@@ -19,7 +19,7 @@ MongoClient.connect(mongodburl, function (err, db) {
   }
 })
 
-app.use(express.favicon(__dirname + '/public/favicon.ico'));
+app.use(express.favicon(__dirname + '/favicon.ico'));
 app.set('port', (process.env.PORT || 5000));
 // views is directory for all template files
 
