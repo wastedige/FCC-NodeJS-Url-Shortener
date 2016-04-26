@@ -6,6 +6,13 @@ var MongoClient = mongodb.MongoClient;
 var mongodburl = 'mongodb://wastedige:salamsalam@ds013931.mlab.com:13931/heroku_d4v0mh31';
 var collection;
 
+app.use(express.static(__dirname + '/public'));
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.use(express.favicon(__dirname + '/favicon.ico'));
+app.set('port', (process.env.PORT || 5000));
+// views is directory for all template files
+
 // 1. connect!
 MongoClient.connect(mongodburl, function (err, db) {
   if (err) {
@@ -18,13 +25,6 @@ MongoClient.connect(mongodburl, function (err, db) {
     showCollection()
   }
 })
-
-app.use(express.static(__dirname + '/public'));
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
-app.use(express.favicon(__dirname + '/favicon.ico'));
-app.set('port', (process.env.PORT || 5000));
-// views is directory for all template files
 
 app.get('/', function(req, res) {
   collection.find().toArray(function (err, result) {
