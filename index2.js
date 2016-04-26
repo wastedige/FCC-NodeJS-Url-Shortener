@@ -12,6 +12,7 @@ app.set('view engine', 'ejs');
 app.set('port', (process.env.PORT || 5000));
 // views is directory for all template files
 
+
 // 1. connect!
 MongoClient.connect(mongodburl, function (err, db) {
   if (err) {
@@ -80,7 +81,11 @@ app.get('/new/*', function(request, response) {
           console.log(err)
         } else {
           addUrl(requestedUrl, index)
-          response.send("URL: " + requestedUrl )
+          response.send(JSON.stringify({
+            "orig_url": requestedUrl,
+            "short_url": __dirname + '\\' + result[0].id
+          }))
+          
         }
       })
 
