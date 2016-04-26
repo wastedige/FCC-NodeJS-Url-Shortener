@@ -1,7 +1,6 @@
 // http://blog.modulus.io/mongodb-tutorial
 var express = require('express');
 var mongodb = require('mongodb');
-var url = require('url')
 var app = express();
 var MongoClient = mongodb.MongoClient;
 var mongodburl = 'mongodb://wastedige:salamsalam@ds013931.mlab.com:13931/heroku_d4v0mh31';
