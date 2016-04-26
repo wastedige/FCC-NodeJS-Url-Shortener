@@ -77,7 +77,7 @@ app.get('/new/*', function(request, response) {
       console.log('Found:', result);
       response.send(JSON.stringify({
         "orig_url": requestedUrl,
-        "short_url": request.protocol + '://' + request.get('host') + result[0].id
+        "short_url": request.protocol + '://' + request.get('host') + "/" + result[0].id
       }))
 
     } else {
@@ -90,7 +90,7 @@ app.get('/new/*', function(request, response) {
           addUrl(requestedUrl, index)
           response.send(JSON.stringify({
             "orig_url": requestedUrl,
-            "short_url": request.protocol + '://' + request.get('host') + index
+            "short_url": request.protocol + '://' + request.get('host') + "/" + index
           }))
 
         }
